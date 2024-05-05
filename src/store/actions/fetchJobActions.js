@@ -19,13 +19,21 @@ export const fetchDataFailure = (error) => ({
 const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
-export const fetchData = (pageNumber = 0, limit = 10) => {
-  return async (dispatch) => {
+export const fetchData = () => {
+  return async (dispatch, state) => {
+    if (state().fetchJob.loading) return;
+
+    const { fetchJob } = state();
+    if (
+      fetchJob.totalCount &&
+      fetchJob.pageNumber * fetchJob.limit >= fetchJob.totalCount
+    )
+      return;
     dispatch(fetchDataRequest());
     try {
       const body = JSON.stringify({
-        limit,
-        offset: pageNumber * limit,
+        limit: fetchJob.limit,
+        offset: fetchJob.pageNumber * fetchJob.limit,
       });
       const requestOptions = {
         method: "POST",

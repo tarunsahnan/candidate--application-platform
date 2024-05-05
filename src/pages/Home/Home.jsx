@@ -16,9 +16,10 @@ const initialFilterState = {
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { loading, data } = useSelector((state) => state.fetchJob);
-  const [pageNumber, setPageNumber] = useState(0);
-  const [loadingMore, setLoadingMore] = useState(false);
+  const { loading, data, totalCount, pageNumber, limit } = useSelector(
+    (state) => state.fetchJob
+  );
+
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState(initialFilterState);
 
@@ -30,42 +31,25 @@ const Home = () => {
     console.log({ filteredData });
   }, [filteredData]);
 
-  const pageSize = 10;
+  const handleScroll = (e) => {
+    const container = e.target;
+    const bottomOffset = 100;
 
-  useEffect(() => {
-    console.log("fetching data", pageNumber);
-    dispatch(fetchData(pageNumber, pageSize));
-  }, [dispatch, pageNumber]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 200
-      ) {
-        loadMoreData();
+    if (
+      container.scrollTop + container.clientHeight >=
+      container.scrollHeight - bottomOffset
+    ) {
+      console.log("1212");
+      if (!loading) {
+        console.log({ loading });
+        dispatch(fetchData());
       }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const loadMoreData = () => {
-    // console.log({ totalCount, i: pageNumber * pageSize });
-    // if (totalCount && pageNumber * pageSize >= totalCount) return;
-    if (!loading && !loadingMore) {
-      // setPageNumber(pageNumber + 1);
-      setLoadingMore(true);
     }
   };
 
   useEffect(() => {
-    if (!loading) setLoadingMore(false);
-  }, [loading]);
+    dispatch(fetchData());
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -133,29 +117,50 @@ const Home = () => {
   }, [data, filters]);
 
   return (
-    <Box display="flex" flexDirection="column" gap="60px">
-      {data && (
-        <>
-          <Filters onFilterChange={onFilterChange} />
-          <Box display="flex" flexWrap="wrap" gap="30px" spacing={2}>
-            {filteredData.map((job, index) => (
-              <JobCard job={job} key={job.jdUid + index} />
-            ))}
-          </Box>
-        </>
-      )}
-      {((loading && !data) || loadingMore) && (
-        <Box display="flex" justifyContent="center" marginTop="30px">
+    <div
+      style={{
+        overflowY: "scroll",
+        height: "100vh",
+        padding: "16px",
+      }}
+      onScroll={handleScroll}
+    >
+      <Box display="flex" flexDirection="column" gap="60px">
+        {data && (
+          <>
+            <Filters onFilterChange={onFilterChange} />
+            <Box display="flex" flexWrap="wrap" gap="30px" spacing={2}>
+              {filteredData.map((job, index) => (
+                <JobCard job={job} key={job.jdUid + index} />
+              ))}
+            </Box>
+          </>
+        )}
+      </Box>
+
+      {loading && (
+        <Box
+          marginBottom="50px"
+          display="flex"
+          justifyContent="center"
+          marginTop="30px"
+        >
           <CircularProgress size={50} />
         </Box>
       )}
-
-      {/* {totalCount && pageNumber * pageSize >= totalCount && (
-        <Typography variant="body1" align="center">
+      {totalCount && pageNumber * limit >= totalCount && (
+        <Typography
+          variant="body1"
+          align="center"
+          marginBottom="50px"
+          display="flex"
+          justifyContent="center"
+          marginTop="30px"
+        >
           No more jobs at this point, please try again later.
         </Typography>
-      )} */}
-    </Box>
+      )}
+    </div>
   );
 };
 

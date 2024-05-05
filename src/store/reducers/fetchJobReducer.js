@@ -9,6 +9,8 @@ const initialState = {
   data: null,
   error: null,
   totalCount: null,
+  pageNumber: 92,
+  limit: 10,
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,6 +23,8 @@ const reducer = (state = initialState, action) => {
         loading: false,
         error: null,
       };
+      newState.pageNumber = state.pageNumber + 1;
+
       const { data } = action.payload;
       if (!newState.data) {
         console.log(data);

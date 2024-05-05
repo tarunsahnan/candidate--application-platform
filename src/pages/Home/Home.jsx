@@ -110,14 +110,7 @@ const Home = () => {
   }, [data, filters]);
 
   return (
-    <div
-      style={{
-        overflowY: "scroll",
-        height: "100vh",
-        padding: "16px",
-      }}
-      onScroll={handleScroll}
-    >
+    <div className="mainWrapper" onScroll={handleScroll}>
       <Box display="flex" flexDirection="column" gap="60px">
         {data && (
           <>
@@ -129,30 +122,29 @@ const Home = () => {
             </Box>
           </>
         )}
+        {loading && (
+          <Box
+            marginBottom="50px"
+            display="flex"
+            justifyContent="center"
+            marginTop="30px"
+          >
+            <CircularProgress size={50} />
+          </Box>
+        )}
+        {totalCount && pageNumber * limit >= totalCount && (
+          <Typography
+            variant="body1"
+            align="center"
+            marginBottom="50px"
+            display="flex"
+            justifyContent="center"
+            marginTop="30px"
+          >
+            No more jobs at this point, please try again later.
+          </Typography>
+        )}
       </Box>
-
-      {loading && (
-        <Box
-          marginBottom="50px"
-          display="flex"
-          justifyContent="center"
-          marginTop="30px"
-        >
-          <CircularProgress size={50} />
-        </Box>
-      )}
-      {totalCount && pageNumber * limit >= totalCount && (
-        <Typography
-          variant="body1"
-          align="center"
-          marginBottom="50px"
-          display="flex"
-          justifyContent="center"
-          marginTop="30px"
-        >
-          No more jobs at this point, please try again later.
-        </Typography>
-      )}
     </div>
   );
 };

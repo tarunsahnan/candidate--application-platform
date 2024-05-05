@@ -4,11 +4,16 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import Cards from "./components/cards/JobCard";
 import Home from "./pages/Home";
+import { Provider } from "react-redux";
+import store from "./store";
 
 function App() {
+  console.log(store.default);
   return (
     <>
-      <Home />
+      <Provider store={store.default}>
+        <Home />
+      </Provider>
     </>
   );
 }

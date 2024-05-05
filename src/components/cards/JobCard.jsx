@@ -1,6 +1,35 @@
-import { Box, Button, Typography, Avatar } from "@mui/material";
+import { Box, Button, Typography, Avatar, Badge } from "@mui/material";
+import PropTypes from "prop-types";
 
-const Cards = () => {
+const BlurredAvatar = ({ img }) => {
+  return (
+    <Badge
+      overlap="circular"
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      badgeContent={
+        <div
+          style={{
+            backgroundColor: "green",
+            width: 8,
+            height: 8,
+            borderRadius: "50%",
+          }}
+        />
+      }
+      sx={{ filter: "blur(2px)" }}
+    >
+      <Avatar
+        alt="User Image"
+        src={img}
+        sx={{ width: "30px", height: "30px" }}
+      />
+    </Badge>
+  );
+};
+const JobCards = ({ job }) => {
   return (
     <Box
       sx={{
@@ -13,14 +42,10 @@ const Cards = () => {
     >
       <Typography>⏳ Posted 10 days ago</Typography>
       <Box sx={{ display: "flex", alignItems: "start", gap: 1, marginTop: 2 }}>
-        <Avatar
-          alt="Airbnb logo"
-          src="https://logo.clearbit.com/airbnb.com"
-          sx={{ width: "25px" }}
-        />
+        <Avatar alt="Airbnb logo" src={job.logoUrl} sx={{ width: "25px" }} />
         <Box>
           <Typography color="#8b8b8b" fontSize="13px" fontWeight="600">
-            Airbnb
+            {job.companyName}
           </Typography>
           <Typography
             marginTop="3px"
@@ -28,10 +53,10 @@ const Cards = () => {
             fontSize="14px"
             fontWeight="400"
           >
-            Senior Frontend Engineer
+            {job.jobRole}
           </Typography>
           <Typography marginTop="5px" fontWeight="500" fontSize="11px">
-            San Francisco, CA
+            {job.location}
           </Typography>
         </Box>
       </Box>
@@ -41,7 +66,9 @@ const Cards = () => {
         fontSize="14px"
         color="#6F7987"
       >
-        Estimated Salary: Rs18-35 LPA ✅
+        Estimated Salary: {job.salaryCurrencyCode}{" "}
+        {job.minJdSalary ? job.minJdSalary + "-" : ""}
+        {job.maxJdSalary} LPA ✅
       </Typography>
       <Box
         height="250px"
@@ -57,15 +84,7 @@ const Cards = () => {
         <Typography color="#212121" fontWeight="600" fontSize="14px">
           About us
         </Typography>
-        <Typography>
-          Founded in August of 2008 and based in San Francisco, California,
-          Airbnb is a trusted community marketplace for people to list,
-          discover, and book unique accommodations around the world — online or
-          from a mobile phone or tablet. Lorem ipsum, dolor sit amet consectetur
-          adipisicing elit. Repudiandae vero quae possimus expedita optio
-          excepturi dolorem reprehenderit omnis quis nobis, porro iure
-          consequuntur qui mollitia eum? Tempora tempore eos consequatur?
-        </Typography>
+        <Typography>{job.jobDetailsFromCompany}</Typography>
       </Box>
       <Typography
         color="#2B2BDD"
@@ -84,14 +103,14 @@ const Cards = () => {
           Minimum Experience:
         </Typography>
         <Typography color="#3E3E3E" fontSize="14px">
-          3 years
+          {job.minExp} years
         </Typography>
       </Box>
       <Box
         sx={{
-          marginTop: "5px",
+          marginTop: "16px",
           display: "flex",
-          gap: "5px",
+          gap: "10px",
           flexDirection: "column",
         }}
       >
@@ -116,16 +135,31 @@ const Cards = () => {
             backgroundColor: "rgb(73, 67, 218)",
             color: "white",
             borderRadius: "8px",
-
             fontWeight: "500",
             height: "44px",
+            display: "flex",
+            gap: "5px",
           }}
         >
+          <BlurredAvatar img="https://plus.unsplash.com/premium_photo-1683121366070-5ceb7e007a97?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+          <BlurredAvatar img="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
           Unlock referral asks
         </Button>
       </Box>
     </Box>
   );
 };
-
-export default Cards;
+JobCards.propTypes = {
+  job: PropTypes.shape({
+    logoUrl: PropTypes.string,
+    companyName: PropTypes.string,
+    jobRole: PropTypes.string,
+    location: PropTypes.string,
+    salaryCurrencyCode: PropTypes.string,
+    minJdSalary: PropTypes.number,
+    maxJdSalary: PropTypes.number,
+    jobDetailsFromCompany: PropTypes.string,
+    minExp: PropTypes.number,
+  }).isRequired,
+};
+export default JobCards;

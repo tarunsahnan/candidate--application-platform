@@ -8,7 +8,7 @@ export const fetchDataRequest = () => ({
 
 export const fetchDataSuccess = (data) => ({
   type: FETCH_DATA_SUCCESS,
-  payload: data,
+  payload: { data },
 });
 
 export const fetchDataFailure = (error) => ({
@@ -18,15 +18,15 @@ export const fetchDataFailure = (error) => ({
 
 const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
-const body = JSON.stringify({
-  limit: 10,
-  offset: 0,
-});
 
-export const fetchData = () => {
+export const fetchData = (pageNumber = 0, limit = 10) => {
   return async (dispatch) => {
     dispatch(fetchDataRequest());
     try {
+      const body = JSON.stringify({
+        limit,
+        offset: pageNumber * limit,
+      });
       const requestOptions = {
         method: "POST",
         headers: myHeaders,

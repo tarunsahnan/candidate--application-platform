@@ -1,6 +1,7 @@
 body {
   padding-bottom: 50px;
   overflow: hidden;
+  margin: 0;
 }
 .mainWrapper {
   overflow-y: scroll;

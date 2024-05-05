@@ -25,10 +25,16 @@ const JobCards = ({ job }) => {
             color="#000000DE"
             fontSize="14px"
             fontWeight="400"
+            sx={{ textTransform: "capitalize" }}
           >
             {job.jobRole}
           </Typography>
-          <Typography marginTop="5px" fontWeight="500" fontSize="11px">
+          <Typography
+            marginTop="5px"
+            fontWeight="500"
+            fontSize="11px"
+            sx={{ textTransform: "capitalize" }}
+          >
             {job.location}
           </Typography>
         </Box>

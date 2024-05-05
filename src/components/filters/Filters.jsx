@@ -1,16 +1,9 @@
 import { useState, useEffect } from "react";
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Chip,
-  Box,
-  TextField,
-} from "@mui/material";
+import { Box, TextField } from "@mui/material";
+import Select from "react-select";
 import { useSelector } from "react-redux";
 
-const Filters = () => {
+const Filters = ({ onFilterChange }) => {
   const jobsList = useSelector((state) => state.fetchJob.data);
 
   const [minExperience, setMinExperience] = useState([]);
@@ -21,7 +14,8 @@ const Filters = () => {
   const [minBasePay, setMinBasePay] = useState([]);
 
   useEffect(() => {
-    console.log({
+    console.log("use effect");
+    onFilterChange({
       minExperience,
       companyName,
       location,
@@ -37,136 +31,141 @@ const Filters = () => {
 
   return (
     <Box width="100%">
-      <Box display="flex" gap={2}>
-        <FormControl fullWidth>
-          <InputLabel id="min-experience-label">Min Experience</InputLabel>
-          <Select
-            labelId="min-experience-label"
-            id="min-experience-select"
-            value={minExperience}
-            onChange={(event) => setMinExperience(event.target.value)}
-          >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => (
-              <MenuItem key={value} value={value}>
-                {value}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-        <TextField
-          label="Company Name"
-          variant="outlined"
-          value={companyName}
-          onChange={(event) => setCompanyName(event.target.value)}
-          fullWidth
+      <Box display="flex" gap="10px" flexWrap="wrap">
+        <Select
+          isClearable={true}
+          options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => ({
+            value,
+            label: value.toString(),
+          }))}
+          onChange={(selectedOption) => {
+            console.log("min exp", selectedOption);
+            setMinExperience(selectedOption ? selectedOption.value : null);
+          }}
+          placeholder="Min Experience"
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              borderColor: state.isFocused ? "#1976d2 !important" : "#CCCCCC",
+              height: "40px",
+            }),
+          }}
         />
 
-        <FormControl fullWidth>
-          <InputLabel id="location-label">Location</InputLabel>
-          <Select
-            labelId="location-label"
-            id="location-select"
-            multiple
-            value={location}
-            onChange={(event) => setLocation(event.target.value)}
-            renderValue={(selected) => (
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </div>
-            )}
-          >
-            {uniqueByKey("location")
-              .filter((item) => item !== "remote")
-              .map((item) => (
-                <MenuItem
-                  key={item}
-                  value={item}
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  {item}
-                </MenuItem>
-              ))}
-          </Select>
-        </FormControl>
+        <Select
+          options={uniqueByKey("location")
+            .filter((item) => item !== "remote")
+            .map((item) => ({
+              value: item,
+              label: item,
+            }))}
+          onChange={(selectedOptions) => {
+            console.log("location", selectedOptions);
+            setLocation(
+              selectedOptions
+                ? selectedOptions.map((option) => option.value)
+                : []
+            );
+          }}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              borderColor: state.isFocused ? "#1976d2 !important" : "#CCCCCC",
+              height: "40px",
+            }),
+          }}
+          isMulti
+          placeholder="Location"
+        />
 
-        <FormControl fullWidth>
-          <InputLabel id="remote-label">Remote/On-site</InputLabel>
-          <Select
-            labelId="remote-label"
-            id="remote-select"
-            multiple
-            value={remoteOnSite}
-            onChange={(event) => setRemoteOnSite(event.target.value)}
-            renderValue={(selected) => (
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </div>
-            )}
-          >
-            {["Remote", "On-site"].map((value) => (
-              <MenuItem key={value} value={value}>
-                {value}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Select
+          options={[
+            { value: "Remote", label: "Remote" },
+            { value: "On-site", label: "On-site" },
+          ]}
+          onChange={(selectedOptions) => {
+            console.log("remote name", selectedOptions);
+            setRemoteOnSite(
+              selectedOptions
+                ? selectedOptions.map((option) => option.value)
+                : []
+            );
+          }}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              borderColor: state.isFocused ? "#1976d2 !important" : "#CCCCCC",
+              height: "40px",
+            }),
+          }}
+          isMulti
+          placeholder="Remote/On-site"
+        />
 
-        <FormControl fullWidth>
-          <InputLabel id="role-label">Role</InputLabel>
-          <Select
-            labelId="role-label"
-            id="role-select"
-            multiple
-            value={role}
-            onChange={(event) => setRole(event.target.value)}
-            renderValue={(selected) => (
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </div>
-            )}
-          >
-            {uniqueByKey("jobRole").map((item) => (
-              <MenuItem
-                key={item}
-                value={item}
-                sx={{ textTransform: "capitalize" }}
-              >
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Select
+          options={uniqueByKey("jobRole").map((item) => ({
+            value: item,
+            label: item,
+          }))}
+          onChange={(selectedOptions) =>
+            setRole(
+              selectedOptions
+                ? selectedOptions.map((option) => option.value)
+                : []
+            )
+          }
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              borderColor: state.isFocused ? "#1976d2 !important" : "#CCCCCC",
+              height: "40px",
+            }),
+          }}
+          isMulti
+          placeholder="Role"
+        />
 
-        <FormControl fullWidth>
-          <InputLabel id="min-base-pay-label">Min Base Pay</InputLabel>
-          <Select
-            labelId="min-base-pay-label"
-            id="min-base-pay-select"
-            multiple
-            value={minBasePay}
-            onChange={(event) => setMinBasePay(event.target.value)}
-            renderValue={(selected) => (
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {selected.map((value) => (
-                  <Chip key={value} label={value} />
-                ))}
-              </div>
-            )}
-          >
-            {[0, 10, 20, 30, 40, 50, 60, 70].map((value) => (
-              <MenuItem key={value} value={value}>
-                {value}L
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <Select
+          options={[0, 10, 20, 30, 40, 50, 60, 70].map((value) => ({
+            value,
+            label: `${value}L`,
+          }))}
+          onChange={(selectedOption) => {
+            console.log("min base", selectedOption);
+            setMinBasePay(selectedOption ? selectedOption.value : null);
+          }}
+          styles={{
+            control: (baseStyles, state) => ({
+              ...baseStyles,
+              borderColor: state.isFocused ? "#1976d2 !important" : "#CCCCCC",
+              height: "40px",
+            }),
+          }}
+          placeholder="Min Base Pay"
+          isClearable={true}
+        />
+        <TextField
+          placeholder="Company Name"
+          value={companyName}
+          onChange={(event) => {
+            console.log("company name");
+            setCompanyName(event.target.value);
+          }}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "&:hover fieldset": {
+                borderColor: "rgba(0, 0, 0, 0.3)", // use the original border color on hover
+              },
+            },
+            input: {
+              "&::placeholder": {
+                // <----- Add this.
+                color: "rgb(0,0,0,0.9)",
+              },
+            },
+          }}
+          size="small"
+        />
       </Box>
     </Box>
   );

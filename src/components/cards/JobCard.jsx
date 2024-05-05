@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import BlurredAvatar from "../blurredAvatar/BlurredAvatar";
 
 const JobCards = ({ job }) => {
+  const viewMorehandler = () => {
+    window.location.href = job.jdLink;
+  };
   return (
     <Box
       sx={{
@@ -13,7 +16,19 @@ const JobCards = ({ job }) => {
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 1px 4px 0px !important",
       }}
     >
-      <Typography>⏳ Posted 10 days ago</Typography>
+      <Typography
+        sx={{
+          padding: "4px 6px",
+          boxShadow: "rgba(6, 6, 6, 0.05) 0px 2px 6px 0px",
+          borderRadius: "10px",
+          border: "1px solid rgb(230, 230, 230)",
+          display: "inline-block",
+          lineHeight: 1.5,
+          fontSize: "9px",
+        }}
+      >
+        ⏳ Posted 10 days ago
+      </Typography>
       <Box sx={{ display: "flex", alignItems: "start", gap: 1, marginTop: 2 }}>
         <Avatar alt="Airbnb logo" src={job.logoUrl} sx={{ width: "25px" }} />
         <Box>
@@ -67,9 +82,11 @@ const JobCards = ({ job }) => {
       </Box>
       <Typography
         color="#2B2BDD"
-        marginTop="-30px"
+        marginTop="-5px"
         sx={{ cursor: "pointer" }}
         textAlign="center"
+        cursor="pointer"
+        onClick={viewMorehandler}
       >
         View Job
       </Typography>
@@ -130,6 +147,7 @@ const JobCards = ({ job }) => {
 };
 JobCards.propTypes = {
   job: PropTypes.shape({
+    jdLink: PropTypes.string,
     logoUrl: PropTypes.string,
     companyName: PropTypes.string,
     jobRole: PropTypes.string,

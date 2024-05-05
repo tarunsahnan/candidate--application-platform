@@ -4,7 +4,7 @@ body {
   margin: 0;
 }
 .mainWrapper {
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 100vh;
   padding: 32px;
 }

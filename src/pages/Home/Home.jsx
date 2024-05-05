@@ -101,13 +101,11 @@ const Home = () => {
       {data && (
         <>
           <Filters onFilterChange={onFilterChange} />
-          <Grid container spacing={2}>
+          <Box display="flex" flexWrap="wrap" gap="30px" spacing={2}>
             {filteredData.map((job, index) => (
-              <Grid key={job.jdUid + index} item xs={12} sm={6} md={4} lg={3}>
-                <JobCard job={job} />
-              </Grid>
+              <JobCard job={job} key={job.jdUid + index} />
             ))}
-          </Grid>
+          </Box>
         </>
       )}
       {((loading && !data) || loadingMore) && (

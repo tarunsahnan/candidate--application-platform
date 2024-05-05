@@ -14,6 +14,12 @@ const JobCards = ({ job }) => {
         padding: 2,
         borderRadius: "20px",
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 1px 4px 0px !important",
+        transition: "transform 0.3s",
+        ":hover": {
+          "&:hover": {
+            transform: "scale(1.01)",
+          },
+        },
       }}
     >
       <Typography
@@ -119,6 +125,9 @@ const JobCards = ({ job }) => {
             height: "44px",
             fontWeight: "500",
             borderRadius: "8px",
+            ":hover": {
+              backgroundColor: "rgb(85, 239, 196)",
+            },
           }}
           hover="none"
         >
@@ -135,6 +144,9 @@ const JobCards = ({ job }) => {
             height: "44px",
             display: "flex",
             gap: "5px",
+            ":hover": {
+              backgroundColor: "rgb(73, 67, 218)",
+            },
           }}
         >
           <BlurredAvatar img="https://plus.unsplash.com/premium_photo-1683121366070-5ceb7e007a97?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />

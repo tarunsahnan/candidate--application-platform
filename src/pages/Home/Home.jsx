@@ -27,10 +27,6 @@ const Home = () => {
     setFilters(filters);
   };
 
-  useEffect(() => {
-    console.log({ filteredData });
-  }, [filteredData]);
-
   const handleScroll = (e) => {
     const container = e.target;
     const bottomOffset = 100;
@@ -39,9 +35,7 @@ const Home = () => {
       container.scrollTop + container.clientHeight >=
       container.scrollHeight - bottomOffset
     ) {
-      console.log("1212");
       if (!loading) {
-        console.log({ loading });
         dispatch(fetchData());
       }
     }
@@ -54,7 +48,6 @@ const Home = () => {
   useEffect(() => {
     if (data) {
       const calculateFilteredData = () => {
-        console.log({ filters });
         const isFilterAdded =
           filters.minExperience.length !== 0 ||
           filters.companyName !== "" ||
@@ -108,7 +101,7 @@ const Home = () => {
           }
           return true;
         });
-        console.log({ data, newData });
+
         setFilteredData(newData);
       };
 

@@ -14,7 +14,6 @@ const Filters = ({ onFilterChange }) => {
   const [minBasePay, setMinBasePay] = useState([]);
 
   useEffect(() => {
-    console.log("use effect");
     onFilterChange({
       minExperience,
       companyName,
@@ -39,7 +38,6 @@ const Filters = ({ onFilterChange }) => {
             label: value.toString(),
           }))}
           onChange={(selectedOption) => {
-            console.log("min exp", selectedOption);
             setMinExperience(selectedOption ? selectedOption.value : null);
           }}
           placeholder="Min Experience"
@@ -60,7 +58,6 @@ const Filters = ({ onFilterChange }) => {
               label: item,
             }))}
           onChange={(selectedOptions) => {
-            console.log("location", selectedOptions);
             setLocation(
               selectedOptions
                 ? selectedOptions.map((option) => option.value)
@@ -84,7 +81,6 @@ const Filters = ({ onFilterChange }) => {
             { value: "On-site", label: "On-site" },
           ]}
           onChange={(selectedOptions) => {
-            console.log("remote name", selectedOptions);
             setRemoteOnSite(
               selectedOptions
                 ? selectedOptions.map((option) => option.value)
@@ -131,7 +127,6 @@ const Filters = ({ onFilterChange }) => {
             label: `${value}L`,
           }))}
           onChange={(selectedOption) => {
-            console.log("min base", selectedOption);
             setMinBasePay(selectedOption ? selectedOption.value : null);
           }}
           styles={{
@@ -148,7 +143,6 @@ const Filters = ({ onFilterChange }) => {
           placeholder="Company Name"
           value={companyName}
           onChange={(event) => {
-            console.log("company name");
             setCompanyName(event.target.value);
           }}
           sx={{

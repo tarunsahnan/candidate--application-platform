@@ -27,13 +27,12 @@ const reducer = (state = initialState, action) => {
 
       const { data } = action.payload;
       if (!newState.data) {
-        console.log(data);
         newState.data = data.jdList;
       } else {
         newState.data = [...state.data, ...data.jdList];
       }
       newState.totalCount = data.totalCount;
-      console.log({ newState });
+
       return newState;
     }
     case FETCH_DATA_FAILURE:

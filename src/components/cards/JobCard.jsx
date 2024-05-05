@@ -10,7 +10,6 @@ const JobCards = ({ job }) => {
     <Box
       sx={{
         maxWidth: 360,
-
         padding: 2,
         borderRadius: "20px",
         boxShadow: "rgba(0, 0, 0, 0.25) 0px 1px 4px 0px !important",
@@ -36,7 +35,7 @@ const JobCards = ({ job }) => {
         ⏳ Posted 10 days ago
       </Typography>
       <Box sx={{ display: "flex", alignItems: "start", gap: 1, marginTop: 2 }}>
-        <Avatar alt="Airbnb logo" src={job.logoUrl} sx={{ width: "25px" }} />
+        <Avatar alt="Airbnb logo" src={job.logoUrl} sx={{ width: "36px" }} />
         <Box>
           <Typography color="#8b8b8b" fontSize="13px" fontWeight="600">
             {job.companyName}

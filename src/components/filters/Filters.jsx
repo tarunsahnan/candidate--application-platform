@@ -28,6 +28,10 @@ const Filters = ({ onFilterChange }) => {
     return Array.from(new Set(jobsList.map((obj) => obj[key])));
   };
 
+  function capitalize(str) {
+    return str.replace(/\b\w/g, (char) => char.toUpperCase());
+  }
+
   return (
     <Box width="100%">
       <Box display="flex" gap="10px" flexWrap="wrap">
@@ -55,7 +59,7 @@ const Filters = ({ onFilterChange }) => {
             .filter((item) => item !== "remote")
             .map((item) => ({
               value: item,
-              label: item,
+              label: capitalize(item),
             }))}
           onChange={(selectedOptions) => {
             setLocation(
@@ -101,7 +105,7 @@ const Filters = ({ onFilterChange }) => {
         <Select
           options={uniqueByKey("jobRole").map((item) => ({
             value: item,
-            label: item,
+            label: capitalize(item),
           }))}
           onChange={(selectedOptions) =>
             setRole(

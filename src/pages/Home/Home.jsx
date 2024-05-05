@@ -49,12 +49,12 @@ const Home = () => {
     if (data) {
       const calculateFilteredData = () => {
         const isFilterAdded =
-          filters.minExperience.length !== 0 ||
+          filters.minExperience ||
           filters.companyName !== "" ||
           filters.location.length !== 0 ||
           filters.remoteOnSite.length !== 0 ||
           filters.role.length !== 0 ||
-          filters.minBasePay.length !== 0;
+          filters.minBasePay;
         if (!isFilterAdded) {
           setFilteredData(data);
           return;

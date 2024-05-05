@@ -9,7 +9,7 @@ const initialState = {
   data: null,
   error: null,
   totalCount: null,
-  pageNumber: 92,
+  pageNumber: 0,
   limit: 10,
 };
 
